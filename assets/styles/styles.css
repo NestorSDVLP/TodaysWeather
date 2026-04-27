@@ -1,0 +1,16 @@
+body {
+  font-family: "Inter", "Helvetica", "Arial", sans-serif;
+}
+
+.box-shadow {
+  box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
+}
+
+.fade {
+  opacity: 0;
+  transition: opacity 0.4s ease-in-out;
+}
+
+.fade.in {
+  opacity: 1;
+}

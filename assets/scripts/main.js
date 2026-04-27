@@ -1,5 +1,5 @@
 /* global bootstrap: false */
-import { API_KEY } from "./config.js";
+import { API_KEY } from "../../config.js";
 
 (() => {
   'use strict'
@@ -13,11 +13,15 @@ import { API_KEY } from "./config.js";
         );
 
         if (!response.ok) {
-            throw new Error("Error en la respuesta de la API");
-            console.log("Error en la respuesta de la API");
+            throw new Error(response.status);
+            console.log(response.status);
         }
 
         const data = await response.json();
+
+        document.querySelector("#cardWeather").classList.add("in");
+
+        document.querySelector("#weatherSpinner").classList.remove("in");
         
         console.log(data);
 
@@ -42,7 +46,9 @@ import { API_KEY } from "./config.js";
 
         console.error(error);
 
-        document.querySelector(".card-body").innerHTML = "<p>(!) Error fetching weather data</p>";
+        document.querySelector("#alertError .alert-message").textContent = error.message;
+
+        document.querySelector("#alertError").classList.add("show");
 
     }
   };
