@@ -18,6 +18,10 @@ export function renderWeather(data) {
 
 }
 
+export function clearWeather() {
+  document.querySelector("#cardWeather").classList.add("d-none");
+}
+
 export function showSpinner() {
   document.querySelector("#weatherSpinner").classList.add("in");
 }
