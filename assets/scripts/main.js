@@ -1,52 +1,35 @@
 import { fetchWeather } from "./api/weather.js";
-import {
-  renderWeather,
-  clearWeather,
-  showSpinner,
-  hideSpinner,
-  showError,
-} from "./ui/renderWeather.js";
-
+import { renderApp } from "./ui/renderApp.js";
+import { setState, subscribe, getState } from "./state/store.js";
 import { debounce } from "./utils/debounce.js";
 
-const state = {
-  city: "Buenos Aires",
-  loading: false,
-  error: null,
-};
+// ?? UI reacciona automáticamente
+
+subscribe(renderApp);
+renderApp(getState());
+
+// INIT
+
+loadWeather(getState().city);
 
 async function loadWeather(city) {
-  state.loading = true;
-  state.error = null;
-
-  showSpinner();
+  setState({ loading: true, error: null });
 
   try {
     const data = await fetchWeather(city);
-    renderWeather(data);
+    setState({ data, loading: false });
   } catch (error) {
-    state.error = error.message;
-    clearWeather();
-    showError(error.message);
-  } finally {
-    state.loading = false;
-    hideSpinner();
+    setState({ error: error.message, loading: false });
   }
 }
 
+// ?? búsqueda con debounce
 const debouncedSearch = debounce((city) => {
-    if (!city) return;
-    state.city = city;
+  if (!city || city.length < 3) return;
+    setState({ city });
     loadWeather(city);
 }, 500);
 
-// Init:
-
-loadWeather(state.city);
-
-// Search Event:
-
-document.querySelector("#weatherSearchCity").addEventListener("input", (e) => {
-    const city = e.target.value.trim();
-    debouncedSearch(city);
+document.querySelector("#searchCity").addEventListener("input", (e) => {
+    debouncedSearch(e.target.value.trim());
 });
