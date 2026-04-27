@@ -1,58 +1,32 @@
-/* global bootstrap: false */
-import { API_KEY } from "../../config.js";
+// scripts/main.js
 
-(() => {
-  'use strict'
+import { fetchWeather } from "./api/weather.js";
+import {
+  renderWeather,
+  showSpinner,
+  hideSpinner,
+  showError,
+} from "./ui/renderWeather.js";
 
-  const getWeather = async () => {
+(async () => {
+  "use strict";
 
-    try {
+  showSpinner();
 
-        const response = await fetch(
-            `https://api.openweathermap.org/data/2.5/weather?q=Buenos Aires&appid=${API_KEY}&units=metric&lang=es`
-        );
+  try {
+    
+    const data = await fetchWeather("Buenos Aires");
+    renderWeather(data);
 
-        if (!response.ok) {
-            throw new Error(response.status);
-            console.log(response.status);
-        }
+  } catch (error) {
 
-        const data = await response.json();
+    console.error(error);
+    showError(error.message);
 
-        document.querySelector("#cardWeather").classList.add("in");
+  } finally {
 
-        document.querySelector("#weatherSpinner").classList.remove("in");
-        
-        console.log(data);
+    hideSpinner();
 
-        const now = new Date();
-        const lastUpdated = now.toLocaleString("es-AR");
+  }
 
-        document.querySelector("#cardWeather .city-name").textContent = data.name;
-
-        document.querySelector("#cardWeather .weather-icon").setAttribute("src", `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`);
-
-        document.querySelector("#cardWeather .weather-temp").textContent = data.main.temp;
-
-        document.querySelector("#cardWeather .weather-temp-min").textContent = data.main.temp_min;
-
-        document.querySelector("#cardWeather .weather-temp-max").textContent = data.main.temp_max;
-
-        document.querySelector("#cardWeather .weather-desc").textContent = data.weather[0].description;
-
-        document.querySelector("#cardWeather .last-updated").textContent = lastUpdated;
-
-    } catch (error) {
-
-        console.error(error);
-
-        document.querySelector("#alertError .alert-message").textContent = error.message;
-
-        document.querySelector("#alertError").classList.add("show");
-
-    }
-  };
-
-  getWeather();
-
-})()
+})();
