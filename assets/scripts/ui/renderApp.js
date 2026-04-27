@@ -5,14 +5,16 @@ export function renderApp(state) {
   const card = document.querySelector("#cardWeather");
   const alert = document.querySelector("#alertError");
 
+  console.log("DATA:", state.data);
+
   // RESET
-  spinner.classList.remove("in");
+  spinner.classList.remove("show");
   card.classList.add("d-none");
   alert.classList.remove("show");
 
   // LOADING
   if (state.loading) {
-    spinner.classList.add("in");
+    spinner.classList.add("show");
     return;
   }
 
@@ -40,7 +42,7 @@ export function renderApp(state) {
     card.querySelector(".last-updated").textContent = lastUpdated;
 
     card.classList.remove("d-none");
-    card.classList.add("in");
+    card.classList.add("show");
   }
 
 }

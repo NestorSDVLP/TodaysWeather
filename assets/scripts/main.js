@@ -6,6 +6,7 @@ import { debounce } from "./utils/debounce.js";
 // ?? UI reacciona automáticamente
 
 subscribe(renderApp);
+
 renderApp(getState());
 
 // INIT
@@ -17,7 +18,7 @@ async function loadWeather(city) {
 
   try {
     const data = await fetchWeather(city);
-    setState({ data, loading: false });
+    setState({ data, loading: false, error: null });
   } catch (error) {
     setState({ error: error.message, loading: false });
   }
