@@ -11,6 +11,6 @@ body {
   transition: opacity 0.4s ease-in-out;
 }
 
-.fade.in {
+.fade.show {
   opacity: 1;
 }

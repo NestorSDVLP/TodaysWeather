@@ -14,7 +14,7 @@ export function renderWeather(data) {
   card.querySelector(".last-updated").textContent = lastUpdated;
 
   card.classList.remove("d-none");
-  card.classList.add("in");
+  card.classList.add("show");
 
 }
 
@@ -23,11 +23,11 @@ export function clearWeather() {
 }
 
 export function showSpinner() {
-  document.querySelector("#weatherSpinner").classList.add("in");
+  document.querySelector("#weatherSpinner").classList.add("show");
 }
 
 export function hideSpinner() {
-  document.querySelector("#weatherSpinner").classList.remove("in");
+  document.querySelector("#weatherSpinner").classList.remove("show");
 }
 
 export function showError(message) {
